@@ -2,7 +2,7 @@ import { Route, Routes, useLocation } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Navigate } from "react-router-dom";
 import { RouteProtection } from "./components/RouteProtection/RouteProtection";
-import { ProductList } from "./components/Products/ProductList/ProductList";
+import ProductList from "./components/Products/ProductList/ProductList";
 import { Login } from "./components/Auth/Login/Login";
 import { SignUp } from "./components/Auth/SignUp/SignUp";
 function App() {
