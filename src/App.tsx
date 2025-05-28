@@ -5,10 +5,18 @@ import { RouteProtection } from "./components/RouteProtection/RouteProtection";
 import ProductList from "./components/Products/ProductList/ProductList";
 import { Login } from "./components/Auth/Login/Login";
 import { SignUp } from "./components/Auth/SignUp/SignUp";
+import { useDispatch } from "react-redux";
+import { fetchUsers } from "./store/User/userSlice";
+import type { AppDispatch } from "./store/store";
+import { useEffect } from "react";
 function App() {
   const location = useLocation();
   const userId: string = localStorage.getItem("user-id") || "";
   const from = location.state?.from?.pathname || "/";
+  const dispatch = useDispatch<AppDispatch>();
+  useEffect(() => {
+    dispatch(fetchUsers(""));
+  }, []);
   const queryClient = new QueryClient();
   return (
     <QueryClientProvider client={queryClient}>
