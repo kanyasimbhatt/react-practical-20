@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { Product } from "../../Types/ProductType";
-import { dummyJsonInstance } from "../../Services/axiosInstance";
+import { MainInstance } from "../../Services/axiosInstance";
 
 type ProductStore = {
   products: Product[];
@@ -12,7 +12,7 @@ const initialProduct: ProductStore = {
 
 export const fetchProducts = async () => {
   try {
-    const response = await dummyJsonInstance.get("/products");
+    const response = await MainInstance.get("/products");
     return response.data;
   } catch (err) {
     console.log(err);
