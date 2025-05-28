@@ -28,14 +28,14 @@ const initialValue: UserStore = {
 
 export const fetchUsers = createAsyncThunk(
   "users/fetchUsers",
-  async (userId: string | undefined = undefined) => {
+  async (userId: string = "") => {
     try {
       if (userId) {
         const response = await MainInstance.get(`/users/${userId}`);
         return response.data;
       }
       const response = await MainInstance.get("/users");
-      return response;
+      return response.data;
     } catch (err) {
       console.log(err);
     }
@@ -69,6 +69,7 @@ const UserSlice = createSlice({
       );
       if (!userData) {
         state.error = true;
+        console.log(state.error);
       } else {
         state.error = false;
         localStorage.setItem("user-id", userData.id);

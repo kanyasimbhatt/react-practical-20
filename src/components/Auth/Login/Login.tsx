@@ -9,7 +9,7 @@ import {
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { useDispatch, useSelector } from "react-redux";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import type { RootState } from "../../../store/store";
@@ -29,6 +29,16 @@ export const Login = () => {
   const handleClickOnShowPassword = () => {
     setShowPassword((show) => !show);
   };
+
+  useEffect(() => {
+    if (userObj.error) {
+      setError("root", {
+        type: "authentication",
+        message: "Invalid email or password",
+      });
+      return;
+    }
+  }, [userObj.error]);
 
   const {
     register,
@@ -57,13 +67,6 @@ export const Login = () => {
 
   const onSubmit: SubmitHandler<UserFormField> = (data) => {
     dispatch(loginUser(data));
-    if (userObj.error) {
-      setError("root", {
-        type: "authentication",
-        message: "Invalid email or password",
-      });
-      return;
-    }
 
     navigate("/");
   };
