@@ -8,7 +8,6 @@ type ChildrenType = {
 
 const RenderProducts = ({ products }: ChildrenType) => {
   const ProductCardLogic = lazy(() => import("../productCard/ProductCard"));
-  console.log(products);
   return (
     <>
       <Stack

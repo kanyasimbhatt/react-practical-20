@@ -9,6 +9,7 @@ import { useDispatch } from "react-redux";
 import { fetchUsers, setUsers } from "./store/User/userSlice";
 import type { AppDispatch } from "./store/store";
 import { useEffect } from "react";
+import { AddEditForm } from "./components/Products/AddEditProduct/AddEditProduct";
 
 function App() {
   const location = useLocation();
@@ -28,6 +29,7 @@ function App() {
     <Routes>
       <Route element={<RouteProtection userId={userId} />}>
         <Route path="/" element={<ProductList />}></Route>
+        <Route path="add-product" element={<AddEditForm />} />
       </Route>
       <Route
         path="/login"

@@ -9,7 +9,7 @@ import {
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { useDispatch, useSelector } from "react-redux";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import type { RootState } from "../../../store/store";
@@ -30,6 +30,13 @@ export const Login = () => {
     setShowPassword((show) => !show);
   };
 
+  const {
+    register,
+    handleSubmit,
+    setError,
+    formState: { isSubmitting, errors },
+  } = useForm<UserFormField>();
+
   useEffect(() => {
     if (userObj.error) {
       setError("root", {
@@ -38,15 +45,7 @@ export const Login = () => {
       });
       return;
     }
-  }, [userObj.error]);
-
-  const {
-    register,
-    handleSubmit,
-    setError,
-    formState: { isSubmitting, errors },
-  } = useForm<UserFormField>();
-
+  }, [userObj.error, setError]);
   const slotPropsForPassword = {
     input: {
       endAdornment: (

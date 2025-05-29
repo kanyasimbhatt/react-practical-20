@@ -1,10 +1,10 @@
 export type Product = {
-  id: number;
+  id: string;
   title: string;
   description: string;
   category: string;
   price: number;
-  images: string[];
+  image: string;
 };
 
 export type InputObject = {

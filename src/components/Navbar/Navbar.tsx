@@ -4,15 +4,25 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Button, Stack } from "@mui/material";
 
 export default function Navbar() {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleLogout = () => {
     localStorage.removeItem("user-id");
     navigate("/login");
+  };
+
+  const handleNavigation = () => {
+    if (location.pathname === "/") {
+      navigate("/add-product");
+      return;
+    }
+
+    navigate("/");
   };
   return (
     <Box sx={{ flexGrow: 1, position: "fixed", top: 0, width: "100%" }}>
@@ -37,8 +47,12 @@ export default function Navbar() {
           </Typography>
 
           <Stack direction={"row"} spacing={3}>
-            <Button variant="text" sx={{ color: "white" }}>
-              Add Products
+            <Button
+              variant="text"
+              sx={{ color: "white" }}
+              onClick={handleNavigation}
+            >
+              {location.pathname === "/" ? "Add Products" : "View All Products"}
             </Button>
             <Button
               variant="text"
