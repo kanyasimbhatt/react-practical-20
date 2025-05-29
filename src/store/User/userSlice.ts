@@ -26,21 +26,18 @@ const initialValue: UserStore = {
   isLoading: false,
 };
 
-export const fetchUsers = createAsyncThunk(
-  "users/fetchUsers",
-  async (userId: string = "") => {
-    try {
-      if (userId) {
-        const response = await MainInstance.get(`/users/${userId}`);
-        return response.data;
-      }
-      const response = await MainInstance.get("/users");
+export const fetchUsers = async (userId: string = "") => {
+  try {
+    if (userId) {
+      const response = await MainInstance.get(`/users/${userId}`);
       return response.data;
-    } catch (err) {
-      console.log(err);
     }
+    const response = await MainInstance.get("/users");
+    return response.data;
+  } catch (err) {
+    console.log(err);
   }
-);
+};
 
 export const addUser = createAsyncThunk(
   "users/addUser",
@@ -75,20 +72,12 @@ const UserSlice = createSlice({
         localStorage.setItem("user-id", userData.id);
       }
     },
+    setUsers: (state, action) => {
+      state.users = action.payload;
+    },
   },
   extraReducers: (builders) => {
     builders
-      .addCase(fetchUsers.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(fetchUsers.rejected, (state) => {
-        state.error = true;
-        state.isLoading = false;
-      })
-      .addCase(fetchUsers.fulfilled, (state, action) => {
-        state.users = action.payload;
-        state.isLoading = false;
-      })
       .addCase(addUser.pending, (state) => {
         state.isLoading = true;
       })
@@ -109,6 +98,6 @@ export const useAddUser = () => {
   });
 };
 
-export const { loginUser } = UserSlice.actions;
+export const { loginUser, setUsers } = UserSlice.actions;
 
 export default UserSlice.reducer;

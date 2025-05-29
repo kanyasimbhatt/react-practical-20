@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import React, { useEffect, useState } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import type { RootState } from "../../../store/store";
 import { loginUser } from "../../../store/User/userSlice";
 
@@ -122,7 +122,7 @@ export const Login = () => {
             <Typography color="red">{errors.root.message}</Typography>
           )}
           <Typography variant="subtitle2" color="gray">
-            A new User: <a href="/signup">Sign Up</a>
+            A new User: <Link to="/signup">Sign Up</Link>
           </Typography>
         </Stack>
       </Stack>
