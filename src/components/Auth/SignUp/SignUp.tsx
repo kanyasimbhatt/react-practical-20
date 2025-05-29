@@ -13,7 +13,7 @@ import { useState } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import type { User } from "../../../Types/UserType";
 import type { AppDispatch, RootState } from "../../../store/store";
 import { addUser } from "../../../store/User/userSlice";
@@ -110,7 +110,6 @@ export const SignUp = () => {
       });
       return;
     }
-
     dispatch(addUser({ ...data, favorites: [] }));
     if (userStore.error) navigate("/signup");
     navigate("/");
@@ -206,7 +205,7 @@ export const SignUp = () => {
             <Typography color="error">{errors.root.message}</Typography>
           )}
           <Typography variant="subtitle2" color="gray">
-            Already a user: <a href="/login">Login</a>
+            Already a user: <Link to="/login">Login</Link>
           </Typography>
         </Stack>
       </Stack>
