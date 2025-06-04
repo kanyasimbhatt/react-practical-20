@@ -6,51 +6,51 @@ import {
   Stack,
   IconButton,
   LinearProgress,
-} from '@mui/material';
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import { useState } from 'react';
-import { useForm, type SubmitHandler } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import { Link, useNavigate } from 'react-router-dom';
-import type { User } from '../../../Types/UserType';
-import { useUsers } from '../userProvider';
-import useCheckAuth from '../../../hooks/useCheckAuth';
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { fetchUserData, storeUserData } from '../../../Services/User/userService';
-import { setData } from '../../../Utils/store';
-
+} from "@mui/material";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import { useState } from "react";
+import { useForm, type SubmitHandler } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { z } from "zod";
+import { Link, useNavigate } from "react-router-dom";
+import type { User } from "../../../Types/UserType";
+import { useUsers } from "../userProvider";
+import useCheckAuth from "../../../hooks/useCheckAuth";
+import {
+  fetchUserData,
+  storeUserData,
+} from "../../../Services/User/userService";
+import { setData } from "../../../Utils/store";
 
 const schema = z.object({
   id: z.string(),
   name: z
     .string()
     .refine(
-      (value) => /^[a-zA-Z]+\s+[a-zA-Z]+$/.test(value ?? ''),
-      'Please enter both First Name and Last Name'
+      (value) => /^[a-zA-Z]+\s+[a-zA-Z]+$/.test(value ?? ""),
+      "Please enter both First Name and Last Name"
     ),
   email: z.string().email(),
   phoneNumber: z
     .string()
     .refine(
-      (value) => /^(\d{10})$/.test(value ?? ''),
-      'Please Enter a 10 digit number'
+      (value) => /^(\d{10})$/.test(value ?? ""),
+      "Please Enter a 10 digit number"
     ),
   password: z
     .string()
     .refine(
       (value) =>
         /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/.test(
-          value ?? ''
+          value ?? ""
         ),
       `Enter Proper password having minimum 8 length, at least 1 uppercase, 1 lowercase, 1 special character`
     ),
 });
 
 type UserFormField = z.infer<typeof schema>;
-
-
 
 export const SignUp = () => {
   const { isLoading } = useCheckAuth();
@@ -62,27 +62,27 @@ export const SignUp = () => {
     mutationFn: (data: User) => storeUserData(data),
     onSuccess: (data: User) => {
       setUserId(data.id);
-      setData<string>('user-id', data.id);
-      navigate('/')
+      setData<string>("user-id", data.id);
+      navigate("/");
     },
-    onError: (error) => console.log(error)
-  })
+    onError: (error) => console.log(error),
+  });
 
   const handleClickOnShowPassword = () => {
     setShowPassword((show) => !show);
   };
 
-  const {data} = useQuery({
-    queryKey: ['users/fetchUsers'],
-    queryFn: fetchUserData
+  const { data } = useQuery({
+    queryKey: ["users/fetchUsers"],
+    queryFn: fetchUserData,
   });
 
   const defaultValue = {
-    id: '',
-    name: '',
-    email: '',
-    phoneNumber: '',
-    password: '',
+    id: "",
+    name: "",
+    email: "",
+    phoneNumber: "",
+    password: "",
   };
 
   const {
@@ -92,7 +92,7 @@ export const SignUp = () => {
     formState: { errors },
   } = useForm<UserFormField>({
     resolver: zodResolver(schema),
-    mode: 'onChange',
+    mode: "onChange",
     defaultValues: defaultValue,
   });
 
@@ -102,7 +102,7 @@ export const SignUp = () => {
         <InputAdornment position="end">
           <IconButton
             aria-label={
-              showPassword ? 'hide the password' : 'display the password'
+              showPassword ? "hide the password" : "display the password"
             }
             onClick={handleClickOnShowPassword}
             edge="end"
@@ -123,14 +123,13 @@ export const SignUp = () => {
   const onSubmit: SubmitHandler<UserFormField> = (FormData) => {
     const present = data.some((user: User) => user.email === FormData.email);
     if (present) {
-      setError('root', {
-        type: 'authentication',
-        message: 'Email Id Already Exists',
+      setError("root", {
+        type: "authentication",
+        message: "Email Id Already Exists",
       });
       return;
     }
-    mutation.mutate({...FormData, id: crypto.randomUUID(), favorites: []})
- 
+    mutation.mutate({ ...FormData, id: crypto.randomUUID(), favorites: [] });
   };
 
   return (
@@ -140,21 +139,21 @@ export const SignUp = () => {
       ) : (
         <form onSubmit={handleSubmit(onSubmit)}>
           <Stack
-            direction={'column'}
+            direction={"column"}
             spacing={3}
-            maxWidth={'600px'}
-            margin={'auto'}
-            marginTop={'80px'}
-            padding={'80px'}
-            boxShadow={'0px 0px 20px gray'}
-            borderRadius={'7px'}
+            maxWidth={"600px"}
+            margin={"auto"}
+            marginTop={"80px"}
+            padding={"80px"}
+            boxShadow={"0px 0px 20px gray"}
+            borderRadius={"7px"}
           >
-            <Typography variant="h4" textAlign={'center'}>
+            <Typography variant="h4" textAlign={"center"}>
               Sign Up
             </Typography>
             <Stack>
               <TextField
-                {...register('name')}
+                {...register("name")}
                 type="text"
                 label="Full Name"
                 variant="outlined"
@@ -169,7 +168,7 @@ export const SignUp = () => {
 
             <Stack>
               <TextField
-                {...register('email')}
+                {...register("email")}
                 type="email"
                 label="Email"
                 variant="outlined"
@@ -183,7 +182,7 @@ export const SignUp = () => {
             </Stack>
             <Stack>
               <TextField
-                {...register('phoneNumber')}
+                {...register("phoneNumber")}
                 type="text"
                 label="Phone Number"
                 variant="outlined"
@@ -200,8 +199,8 @@ export const SignUp = () => {
             </Stack>
             <Stack>
               <TextField
-                {...register('password')}
-                type={showPassword ? 'text' : 'password'}
+                {...register("password")}
+                type={showPassword ? "text" : "password"}
                 label="Password"
                 slotProps={slotPropsForPassword}
                 variant="outlined"
@@ -223,7 +222,7 @@ export const SignUp = () => {
                 size="large"
                 disabled={mutation.isPending}
               >
-                {mutation.isPending ? 'Loading...' : 'Sign Up'}
+                {mutation.isPending ? "Loading..." : "Sign Up"}
               </Button>
               {errors.root && (
                 <Typography color="error">{errors.root.message}</Typography>

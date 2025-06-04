@@ -1,29 +1,20 @@
-import { Route, Routes, useLocation } from 'react-router-dom';
-import { Navigate } from 'react-router-dom';
-import { RouteProtection } from './components/RouteProtection/RouteProtection';
-import { ProductList } from './components/Products/ProductList/ProductList';
-import { Login } from './components/Auth/Login/Login';
-import { SignUp } from './components/Auth/SignUp/SignUp';
-import { getData } from './Utils/store';
+import { Route, Routes } from "react-router-dom";
+import { RouteProtection } from "./components/RouteProtection/RouteProtection";
+import { ProductList } from "./components/Products/ProductList/ProductList";
+import { Login } from "./components/Auth/Login/Login";
+import { SignUp } from "./components/Auth/SignUp/SignUp";
+import { getData } from "./Utils/store";
 
 function App() {
-  const userId = getData('user-id');
-  const location = useLocation();
+  const userId = getData("user-id");
 
-  const from = location.state?.from?.pathname || '/';
   return (
     <Routes>
       <Route element={<RouteProtection userId={userId} />}>
         <Route path="/" element={<ProductList />}></Route>
       </Route>
-      <Route
-        path="/login"
-        element={userId ? <Navigate to={from} /> : <Login />}
-      ></Route>
-      <Route
-        path="/signup"
-        element={userId ? <Navigate to={from} /> : <SignUp />}
-      ></Route>
+      <Route path="/login" element={<Login />}></Route>
+      <Route path="/signup" element={<SignUp />}></Route>
     </Routes>
   );
 }

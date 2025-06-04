@@ -7,12 +7,6 @@ export const MainInstance = axios.create({
   },
 });
 
-export const dummyJsonInstance = axios.create({
-  baseURL: "https://dummyjson.com",
-  timeout: 1000,
-  headers: { "Content-Type": "application/json" },
-});
-
 MainInstance.interceptors.request.use(
   (config) => {
     return config;
@@ -28,27 +22,5 @@ MainInstance.interceptors.response.use(
   },
   (error) => {
     console.log(error);
-  }
-);
-
-dummyJsonInstance.interceptors.request.use(
-  function (config) {
-    return config;
-  },
-  function (error) {
-    throw new Error(error);
-  }
-);
-
-dummyJsonInstance.interceptors.response.use(
-  function (response) {
-    return response;
-  },
-  function (error) {
-    if (error.response) {
-      console.log(error.response.message);
-    }
-
-    throw new Error(error);
   }
 );

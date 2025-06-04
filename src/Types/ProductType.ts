@@ -4,7 +4,7 @@ export type Product = {
   description: string;
   category: string;
   price: number;
-  images: string[];
+  image: File;
 };
 
 export type InputObject = {
