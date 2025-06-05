@@ -18,6 +18,7 @@ function App() {
       <Route element={<RouteProtection userId={userId} />}>
         <Route path="/" element={<ProductList />}></Route>
         <Route path="/add-product" element={<AddEditForm />} />
+        <Route path="/edit-product/:productId" element={<AddEditForm />} />
       </Route>
       <Route
         path="/login"

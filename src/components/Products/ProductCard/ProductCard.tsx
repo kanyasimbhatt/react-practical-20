@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { type Product } from '../../../Types/ProductType';
 import ProductCardUI from './ProductCardUI';
 
@@ -7,21 +7,23 @@ type ChildrenType = {
 };
 
 const ProductCardLogic = ({ product }: ChildrenType) => {
-  const [share, setShowShare] = useState(false);
-  const [productIdSelected, setProductIdSelected] = useState("");
+    const navigate = useNavigate();
+  
 
-  const handleShare = (productId: string) => {
-    setProductIdSelected(productId);
-    setShowShare((share) => !share);
+  const handleDelete = (productId: string) => {
+    
   };
 
+  const handleEdit = (productId: string) => {
+    navigate(`/edit-product/${productId}`)
+
+  }
   return (
     <ProductCardUI
       product={product}
-      share={share}
-      setShowShare={setShowShare}
-      handleShare={handleShare}
-      productIdSelected={productIdSelected}
+      handleDelete={handleDelete}
+      handleEdit={handleEdit}
+      
     />
   );
 };

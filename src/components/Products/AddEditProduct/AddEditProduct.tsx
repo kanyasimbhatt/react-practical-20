@@ -6,11 +6,7 @@ import { useEffect } from "react";
 import { Button, Stack, TextField, Typography } from "@mui/material";
 import type { Product } from "../../../Types/ProductType";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { fetchProducts, storeProducts } from "../../../Services/Product/ProductService";
-
-
-const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
-const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+import { editProducts, fetchProducts, storeProducts } from "../../../Services/Product/ProductService";
 
 export const schema = z.object({
     id: z.string(),
@@ -19,20 +15,12 @@ export const schema = z.object({
     category: z.string().min(1),
     brand: z.string().min(1),
     price: z
-  .number({
-    required_error: 'Price is required',
-    invalid_type_error: 'Price must be a number',
-  })
-  .positive('Price must be greater than 0'),
-    image: z
-        .custom<File | null>((file) => file instanceof File, {
-            message: 'Image is required',
+        .number({
+            required_error: 'Price is required',
+            invalid_type_error: 'Price must be a number',
         })
-        .refine((file) => !file || file.size <= MAX_FILE_SIZE, 'Max image size is 5MB.')
-        .refine(
-            (file) => !file || ACCEPTED_IMAGE_TYPES.includes(file.type),
-            'Only .jpg, .jpeg, .png and .webp formats are supported.'
-        ),
+        .positive('Price must be greater than 0'),
+    
 });
 
 type ProductFormFields = z.infer<typeof schema>;
@@ -40,24 +28,37 @@ type ProductFormFields = z.infer<typeof schema>;
 export const AddEditForm: React.FC = () => {
     const { productId } = useParams();
     const navigate = useNavigate();
+
     const { data } = useQuery({
         queryKey: ['products/fetch-products'],
         queryFn: fetchProducts,
         initialData: []
     });
 
-    const mutation = useMutation({
-        mutationFn: storeProducts,
+    const addMutation = useMutation({
+        mutationFn: (data: Product) => storeProducts(data),
         onSuccess: () => {
             navigate('/')
         },
         onError: (error) => {
             console.log(error);
         }
+    });
+
+    const editMutation = useMutation({
+        mutationFn: (data: Product) => editProducts(data),
+        onSuccess: () => {
+            navigate('/')
+        },
+        onError: (err)=>{
+            console.log(err)
+        }
     })
+
     const productData = data.find(
         (product: Product) => product.id === productId
     );
+
 
     const defaultValue = {
         id: "",
@@ -65,15 +66,14 @@ export const AddEditForm: React.FC = () => {
         description: "",
         category: "",
         brand: "",
-        image: null
+        price: 0,
     };
 
     const {
         register,
         handleSubmit,
-        setValue,
         reset,
-        formState: { errors, isSubmitting },
+        formState: { errors },
     } = useForm<ProductFormFields>({
         resolver: zodResolver(schema),
         mode: "onChange",
@@ -81,8 +81,8 @@ export const AddEditForm: React.FC = () => {
     });
 
     const onSubmit: SubmitHandler<ProductFormFields> = (data) => {
-        console.log(data)
-        mutation.mutate({...data, id: crypto.randomUUID()})
+        if(!productData) addMutation.mutate({...data, id: crypto.randomUUID()});
+        else editMutation.mutate({...data});
     };
 
     useEffect(() => {
@@ -100,12 +100,12 @@ export const AddEditForm: React.FC = () => {
                 margin={"auto"}
                 marginTop={"100px"}
                 padding={"40px"}
-                sx={{ backgroundColor: "rgb(0, 0, 0, 0.1)" }}
+                sx={{ backgroundColor: "rgb(56, 116, 203, 0.1)" }}
                 borderRadius={"7px"}
             >
-                <h2 className="form-title">
-                    {!productData ? `Add Task` : `Edit Task`}
-                </h2>
+                <Typography variant="h5" textAlign={'center'} fontWeight={'500'}>
+                    {!productData ? `Add Product` : `Edit Product`}
+                </Typography>
 
                 <TextField
                     {...register("title")}
@@ -141,6 +141,18 @@ export const AddEditForm: React.FC = () => {
                 )}
 
                 <TextField
+                    {...register("price", { valueAsNumber: true })}
+                    type="number"
+                    label="Enter Price"
+                    variant="outlined"
+                    color="primary"
+                    size="medium"
+                />
+                {errors.price && (
+                    <Typography color="red">{errors.price.message}</Typography>
+                )}
+
+                <TextField
                     {...register("brand")}
                     type="text"
                     label="Enter Brand"
@@ -152,29 +164,15 @@ export const AddEditForm: React.FC = () => {
                     <Typography color="red">{errors.brand.message}</Typography>
                 )}
 
-                <input
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => {
-                        const file = e.target.files?.[0];
-                        if (file) {
-                            setValue('image', file, { shouldValidate: true });
-                        }
-                    }}
-                    style={{ marginTop: 8 }}
-                />
-                {errors.image && (
-                    <Typography color="red">{errors.image.message as string}</Typography>
-                )}
 
                 <Button
                     type="submit"
                     variant="contained"
                     color="primary"
                     size="large"
-                    disabled={isSubmitting}
+                    disabled={!productData ? addMutation.isPending: editMutation.isPending}
                 >
-                    {isSubmitting ? "Loading..." : !productData ? "Add" : "Edit"}
+                    {addMutation.isPending || editMutation.isPending ? "Loading..." : !productData ? "Add" : "Edit"}
                 </Button>
                 {errors.root && (
                     <Typography color="red">{errors.root.message}</Typography>
