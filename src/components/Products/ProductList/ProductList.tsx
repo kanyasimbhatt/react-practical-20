@@ -2,14 +2,22 @@ import { Typography } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import ProductListUI from "./ProductListUI";
 import { fetchProducts } from "../../../Services/Product/ProductService";
+import { useProducts } from "../ProductsProvider";
+import { useEffect } from "react";
 
 export default function ProductList() {
+  const {products, setProducts} = useProducts();
+
   const { data } = useQuery({
     queryKey: ["products/fetch-products"],
     queryFn: fetchProducts,
     enabled: true,
     placeholderData: [],
   });
+
+  useEffect(()=>{
+    setProducts(data);
+  }, [data]);
 
   return (
     <>
@@ -23,7 +31,7 @@ export default function ProductList() {
           No Products Yet!
         </Typography>
       ) : (
-        <ProductListUI products={data || []} />
+        <ProductListUI products={products} />
       )}
     </>
   );
