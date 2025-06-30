@@ -1,13 +1,13 @@
 import axios from "axios";
 
-export const MainInstance = axios.create({
+export const axiosInstance = axios.create({
   baseURL: `https://react-practical-20-backend.onrender.com`,
   headers: {
     "Content-Type": "application/json",
   },
 });
 
-MainInstance.interceptors.request.use(
+axiosInstance.interceptors.request.use(
   (config) => {
     return config;
   },
@@ -16,7 +16,7 @@ MainInstance.interceptors.request.use(
   }
 );
 
-MainInstance.interceptors.response.use(
+axiosInstance.interceptors.response.use(
   (response) => {
     return response;
   },
