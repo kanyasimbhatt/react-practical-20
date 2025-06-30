@@ -1,54 +1,24 @@
-# React + TypeScript + Vite
+# React practical 20
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+### Continuing the efforts we made in Practical 18, let's start fetching data for product list page and product details page by using the following endpoints:
 
-Currently, two official plugins are available:
+- https://freeapi.hashnode.space/api-guide/apireference/getProducts
+- https://freeapi.hashnode.space/api-guide/apireference/getProductById
+- https://freeapi.hashnode.space/api-guide/apireference/updateProduct
+- https://freeapi.hashnode.space/api-guide/apireference/createProduct
+- https://freeapi.hashnode.space/api-guide/apireference/deleteProduct
+- https://freeapi.hashnode.space/api-guide/apireference/registerUser
+- https://freeapi.hashnode.space/api-guide/apireference/loginUser
+- Once done, we should also integrate Tanstack query into our E commerce App.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Information: As these APIs are responding with 403 forbidden, I'm going to utilize JSON server for API calls
 
-## Expanding the ESLint configuration
+### Guidelines:
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+- Create a separate repo
+- Create branch as and when needed
+- Commit your code daily, use atomic and meaningful commits
+- Raise PRs on daily basis
+- Do not merge before review
+- Deploy this practical
+- Share repo URL, link of raised PRs and deployed URL here.

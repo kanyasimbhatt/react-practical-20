@@ -6,7 +6,7 @@ import { useProducts } from "../ProductsProvider";
 import { useEffect } from "react";
 
 export default function ProductList() {
-  const {products, setProducts} = useProducts();
+  const { products, setProducts } = useProducts();
 
   const { data } = useQuery({
     queryKey: ["products/fetch-products"],
@@ -15,7 +15,7 @@ export default function ProductList() {
     placeholderData: [],
   });
 
-  useEffect(()=>{
+  useEffect(() => {
     setProducts(data);
   }, [data]);
 

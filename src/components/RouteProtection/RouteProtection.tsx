@@ -6,7 +6,7 @@ type ChildrenType = {
   userId: string;
 };
 
-export const RouteProtection = ({ userId }: ChildrenType) => {
+const RouteProtection = ({ userId }: ChildrenType) => {
   const newLocation = `${location}`;
   return (
     <>
@@ -21,3 +21,5 @@ export const RouteProtection = ({ userId }: ChildrenType) => {
     </>
   );
 };
+
+export default RouteProtection;

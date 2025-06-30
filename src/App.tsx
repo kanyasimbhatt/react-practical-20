@@ -1,32 +1,55 @@
-import { Route, Routes, useLocation } from 'react-router-dom';
-import { Navigate } from 'react-router-dom';
-import { RouteProtection } from './components/RouteProtection/RouteProtection';
-import ProductList from './components/Products/ProductList/ProductList';
-import { Login } from './components/Auth/Login/Login';
-import { SignUp } from './components/Auth/SignUp/SignUp';
-import { getData } from './Utils/store';
-import './App.css'
-import { AddEditForm } from './components/Products/AddEditProduct/AddEditProduct';
+import { Route, Routes } from "react-router-dom";
+import { lazy, Suspense } from "react";
+import { getData } from "./Utils/store";
+import "./App.css";
 
 function App() {
-  const userId = getData('user-id');
-  const location = useLocation();
-
-  const from = location.state?.from?.pathname || '/';
+  const userId = getData("user-id");
+  const RouteProtection = lazy(
+    () => import("./components/RouteProtection/RouteProtection")
+  );
+  const Login = lazy(() => import("./components/Auth/Login/Login"));
+  const SignUp = lazy(() => import("./components/Auth/SignUp/SignUp"));
+  const ProductList = lazy(
+    () => import("./components/Products/ProductList/ProductList")
+  );
+  const AddEditForm = lazy(
+    () => import("./components/Products/AddEditProduct/AddEditProduct")
+  );
   return (
     <Routes>
-      <Route element={<RouteProtection userId={userId} />}>
-        <Route path="/" element={<ProductList />}></Route>
+      <Route
+        element={
+          <Suspense>
+            <RouteProtection userId={userId} />
+          </Suspense>
+        }
+      >
+        <Route
+          path="/"
+          element={
+            <Suspense>
+              <ProductList />
+            </Suspense>
+          }
+        ></Route>
         <Route path="/add-product" element={<AddEditForm />} />
-        <Route path="/edit-product/:productId" element={<AddEditForm />} />
       </Route>
       <Route
         path="/login"
-        element={userId ? <Navigate to={from} /> : <Login />}
+        element={
+          <Suspense>
+            <Login />
+          </Suspense>
+        }
       ></Route>
       <Route
         path="/signup"
-        element={userId ? <Navigate to={from} /> : <SignUp />}
+        element={
+          <Suspense>
+            <SignUp />
+          </Suspense>
+        }
       ></Route>
     </Routes>
   );
