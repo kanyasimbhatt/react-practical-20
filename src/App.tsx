@@ -3,19 +3,19 @@ import { lazy, Suspense } from "react";
 import { getData } from "./Utils/store";
 import "./App.css";
 
+const RouteProtection = lazy(
+  () => import("./components/RouteProtection/RouteProtection")
+);
+const Login = lazy(() => import("./components/Auth/Login/Login"));
+const SignUp = lazy(() => import("./components/Auth/SignUp/SignUp"));
+const ProductList = lazy(
+  () => import("./components/Products/ProductList/ProductList")
+);
+const AddEditForm = lazy(
+  () => import("./components/Products/AddEditProduct/AddEditProduct")
+);
 function App() {
   const userId = getData("user-id");
-  const RouteProtection = lazy(
-    () => import("./components/RouteProtection/RouteProtection")
-  );
-  const Login = lazy(() => import("./components/Auth/Login/Login"));
-  const SignUp = lazy(() => import("./components/Auth/SignUp/SignUp"));
-  const ProductList = lazy(
-    () => import("./components/Products/ProductList/ProductList")
-  );
-  const AddEditForm = lazy(
-    () => import("./components/Products/AddEditProduct/AddEditProduct")
-  );
   return (
     <Routes>
       <Route
