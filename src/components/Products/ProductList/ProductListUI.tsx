@@ -1,5 +1,6 @@
 import { lazy, Suspense } from "react";
-import { Stack, LinearProgress } from "@mui/material";
+import Stack from "@mui/material/Stack";
+import LinearProgress from "@mui/material/LinearProgress";
 import { type Product } from "../../../Types/ProductType";
 
 type ChildrenType = {

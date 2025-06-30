@@ -1,9 +1,9 @@
-import { Typography } from "@mui/material";
+import { useEffect } from "react";
+import Typography from "@mui/material/Typography";
 import { useQuery } from "@tanstack/react-query";
 import ProductListUI from "./ProductListUI";
 import { fetchProducts } from "../../../Services/Product/ProductService";
 import { useProducts } from "../ProductsProvider";
-import { useEffect } from "react";
 
 export default function ProductList() {
   const { products, setProducts } = useProducts();

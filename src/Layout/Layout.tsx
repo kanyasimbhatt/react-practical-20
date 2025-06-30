@@ -1,6 +1,6 @@
 import { ErrorBoundary } from "react-error-boundary";
+import Stack from "@mui/material/Stack";
 import Navbar from "../components/Navbar/Navbar";
-import { Stack } from "@mui/material";
 import ProductsProvider from "../components/Products/ProductsProvider";
 
 type ChildrenType = {
@@ -12,9 +12,7 @@ const ApplicationLayout = ({ children }: ChildrenType) => {
     <>
       <Navbar />
       <ErrorBoundary FallbackComponent={FallbackComponent}>
-        <ProductsProvider>
-        {children}
-        </ProductsProvider>
+        <ProductsProvider>{children}</ProductsProvider>
       </ErrorBoundary>
     </>
   );

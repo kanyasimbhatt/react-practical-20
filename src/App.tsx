@@ -33,7 +33,14 @@ function App() {
             </Suspense>
           }
         ></Route>
-        <Route path="/add-product" element={<AddEditForm />} />
+        <Route
+          path="/add-product"
+          element={
+            <Suspense>
+              <AddEditForm />
+            </Suspense>
+          }
+        />
       </Route>
       <Route
         path="/login"
