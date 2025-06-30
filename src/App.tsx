@@ -1,6 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import { lazy, Suspense } from "react";
 import { getData } from "./Utils/store";
+import "./App.css";
 
 function App() {
   const userId = getData("user-id");
@@ -11,6 +12,9 @@ function App() {
   const SignUp = lazy(() => import("./components/Auth/SignUp/SignUp"));
   const ProductList = lazy(
     () => import("./components/Products/ProductList/ProductList")
+  );
+  const AddEditForm = lazy(
+    () => import("./components/Products/AddEditProduct/AddEditProduct")
   );
   return (
     <Routes>
@@ -29,6 +33,14 @@ function App() {
             </Suspense>
           }
         ></Route>
+        <Route
+          path="/add-product"
+          element={
+            <Suspense>
+              <AddEditForm />
+            </Suspense>
+          }
+        />
       </Route>
       <Route
         path="/login"
